@@ -44,7 +44,7 @@ class HomePage(Screen):
         box_layout.add_widget(title_label)
 
         # Create the first button that navigates to the second screen
-        button1 = Button(
+        fuel_entry_button = Button(
             text='Neuer Tankeintrag',
             font_size='20sp',
             size_hint_y=None,
@@ -52,11 +52,22 @@ class HomePage(Screen):
             background_color=(0, 0, 0, 0.8),  # Semi-transparent black background
             color=(1, 1, 1, 1)  # White text color
         )
-        button1.bind(on_press=self.go_to_form)
-        box_layout.add_widget(button1)
+        fuel_entry_button.bind(on_press=self.go_to_form)
+        box_layout.add_widget(fuel_entry_button)
 
-        # Add two more buttons for demonstration
-        for i in range(2, 4):
+        vehicle_button = Button(
+            text='Fahrzeug Registrieren',
+            font_size='20sp',
+            size_hint_y=None,
+            height=dp(50),
+            background_color=(0, 0, 0, 0.8),  # Semi-transparent black background
+            color=(1, 1, 1, 1)  # White text color
+        )
+        vehicle_button.bind(on_press=self.go_to_vehicle_registry)
+        box_layout.add_widget(vehicle_button)
+
+        """# Add two more buttons for demonstration
+        for i in range(3, 4):
             button = Button(
                 text=f'Button {i}',
                 size_hint_y=None,
@@ -65,7 +76,7 @@ class HomePage(Screen):
                 background_color=(0, 0, 0, 0.8),  # Semi-transparent black background
                 color=(1, 1, 1, 1)  # White text color
             )
-            box_layout.add_widget(button)
+            box_layout.add_widget(button)"""
 
         # Add the BoxLayout to the FloatLayout
         layout.add_widget(box_layout)
@@ -77,4 +88,7 @@ class HomePage(Screen):
         self.rect.size = instance.size
 
     def go_to_form(self, instance):
-        self.manager.current = 'form'
+        self.manager.current = 'new_fuel_entry'
+
+    def go_to_vehicle_registry(self, instance):
+        self.manager.current = 'vehicle_registry'

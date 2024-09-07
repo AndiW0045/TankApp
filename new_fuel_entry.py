@@ -16,8 +16,10 @@ class NewFuelEntry(Screen):
         layout = FloatLayout()
 
         # Background Image
-        background = Image(source='images/fuel_hose.jpg', allow_stretch=True, keep_ratio=False)
+        background = Image(source='images/hose.jpg', allow_stretch=True, keep_ratio=False)
         layout.add_widget(background)
+
+        self.text_inputs = []
 
 
         # Create a BoxLayout for the form fields and back button
@@ -46,47 +48,35 @@ class NewFuelEntry(Screen):
 
 
         # Create three text fields
-        vehicle = Label(
+        vehicle = Button(
                     text="Fahrzeug",
                     font_size='20sp',
                     size_hint_y=None,
-                    height=dp(25),
+                    height=dp(50),
                     bold=True,
+                    background_color=(0,0,0,0.5),
                     color=(1, 1, 1, 1)  # White color
                 )
-        # Adding a semi-transparent background behind the title
-        with vehicle.canvas:
-            Color(0, 0, 0, 0.8)  # Black with 50% transparency
-            Rectangle(size=vehicle.size, pos=vehicle.pos)
-            
         vehicle_input = TextInput(size_hint_y=None, height=dp(40))
 
-        fuel_amount = Label(
+        fuel_amount = Button(
                     text="Füllmenge",
                     font_size='20sp',
                     size_hint_y=None,
-                    height=dp(25),
+                    height=dp(50),
                     bold=True,
-                    color=(1, 1, 1, 1)  # White color
+                    background_color=(0,0,0,0.5),
+                    color=(1, 1, 1, 1) # White color
                 )
         fuel_input = TextInput(size_hint_y=None, height=dp(40))
 
-        date = Label(
-                    text="Datum",
-                    font_size='20sp',
-                    size_hint_y=None,
-                    height=dp(25),
-                    bold=True,
-                    color=(1, 1, 1, 1)  # White color
-                )
-        date_input = TextInput(size_hint_y=None, height=dp(40))
+        self.text_inputs.append(vehicle_input)
+        self.text_inputs.append(fuel_input)
 
         box_layout.add_widget(vehicle)
         box_layout.add_widget(vehicle_input)
         box_layout.add_widget(fuel_amount)
         box_layout.add_widget(fuel_input)
-        box_layout.add_widget(date)
-        box_layout.add_widget(date_input)
 
 
         # Add the BoxLayout to the FloatLayout
