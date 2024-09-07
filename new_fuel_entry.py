@@ -7,7 +7,10 @@ from kivy.uix.image import Image
 from kivy.metrics import dp
 from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Color, Rectangle
+from kivy.uix.spinner import Spinner
+from kivy.uix.popup import Popup
 
+from database_functions import get_vehicles, add_tankentry
 
 class NewFuelEntry(Screen):
     def __init__(self, **kwargs):
@@ -18,9 +21,6 @@ class NewFuelEntry(Screen):
         # Background Image
         background = Image(source='images/hose.jpg', allow_stretch=True, keep_ratio=False)
         layout.add_widget(background)
-
-        self.text_inputs = []
-
 
         # Create a BoxLayout for the form fields and back button
         box_layout = BoxLayout(orientation='vertical', spacing=dp(10), padding=[dp(10), dp(10), dp(10), dp(10)])
@@ -48,16 +48,33 @@ class NewFuelEntry(Screen):
 
 
         # Create three text fields
-        vehicle = Button(
+        vehicle_button = Button(
                     text="Fahrzeug",
                     font_size='20sp',
                     size_hint_y=None,
                     height=dp(50),
                     bold=True,
-                    background_color=(0,0,0,0.5),
+                    background_color=(0,0,0,0.8),
                     color=(1, 1, 1, 1)  # White color
                 )
-        vehicle_input = TextInput(size_hint_y=None, height=dp(40))
+        
+
+        vehicles = get_vehicles()
+        self.vehicle_list = []
+        for v in vehicles:
+            self.vehicle_list.append(v[1])
+
+        self.vehicle_spinner = Spinner(
+            text='Select Vehicle',
+            font_size='20sp',
+            values=self.vehicle_list, 
+            size_hint_y=None,
+            height=dp(50),
+            bold=True,
+            background_color=(1, 1, 1, 0.8),
+            color=(0, 0, 0, 1)  
+        )
+
 
         fuel_amount = Button(
                     text="Füllmenge",
@@ -65,18 +82,16 @@ class NewFuelEntry(Screen):
                     size_hint_y=None,
                     height=dp(50),
                     bold=True,
-                    background_color=(0,0,0,0.5),
-                    color=(1, 1, 1, 1) # White color
+                    background_color=(0,0,0,0.8),
+                    color=(1, 1, 1, 1)
                 )
-        fuel_input = TextInput(size_hint_y=None, height=dp(40))
+        self.fuel_input = TextInput(size_hint_y=None, height=dp(40))
 
-        self.text_inputs.append(vehicle_input)
-        self.text_inputs.append(fuel_input)
 
-        box_layout.add_widget(vehicle)
-        box_layout.add_widget(vehicle_input)
+        box_layout.add_widget(vehicle_button)
+        box_layout.add_widget(self.vehicle_spinner)
         box_layout.add_widget(fuel_amount)
-        box_layout.add_widget(fuel_input)
+        box_layout.add_widget(self.fuel_input)
 
 
         # Add the BoxLayout to the FloatLayout
@@ -94,10 +109,10 @@ class NewFuelEntry(Screen):
             font_size='20sp',
             size_hint_y=None,
             height=dp(50),
-            background_color=(0, 0, 0, 0.8),  # Semi-transparent black background
-            color=(1, 1, 1, 1)  # White text color
+            background_color=(0, 0, 0, 0.8),  
+            color=(1, 1, 1, 1)  
         )
-        submit_button.bind(on_press=self.submit_form)
+        submit_button.bind(on_press=self.on_submit)
         button_layout.add_widget(submit_button)
 
         # Add a Back button to return to the main page
@@ -106,8 +121,8 @@ class NewFuelEntry(Screen):
             font_size='20sp',
             size_hint_y=None,
             height=dp(50),
-            background_color=(0, 0, 0, 0.8),  # Semi-transparent black background
-            color=(1, 1, 1, 1)  # White text color
+            background_color=(0, 0, 0, 0.8),  
+            color=(1, 1, 1, 1)  
         )
         back_button.bind(on_press=self.go_back)
         button_layout.add_widget(back_button)
@@ -117,16 +132,27 @@ class NewFuelEntry(Screen):
 
         self.add_widget(layout)
 
-    def submit_form(self, instance):
-        # Collect the text from the text fields
-        form_data = [text_input.text for text_input in self.text_inputs]
-        print("Form Submitted with Data:", form_data)
-        # Add form submission logic here (e.g., save data, send to a server, etc.)
-        # TODO
-
     def go_back(self, instance):
         self.manager.current = 'main'
 
     def update_rect(self, instance, value):
         self.rect.pos = instance.pos
         self.rect.size = instance.size
+
+    def on_submit(self, instance):
+        selected_vehicle = self.vehicle_spinner.text
+        vehicle_id = self.vehicle_list.index(selected_vehicle)
+
+        add_tankentry(vehicle_id, self.fuel_input) # adds new tankentry to db
+
+        popup_content = BoxLayout(orientation='vertical')
+        popup_content.add_widget(Label(text="Tankeintrag erfolgreich hinzugefügt"))
+        close_button = Button(text='OK', size_hint_y=None, height='40dp')
+        popup_content.add_widget(close_button)
+
+        popup = Popup(title='Submission Status',
+                      content=popup_content,
+                      size_hint=(None, None), size=(300, 200),
+                      auto_dismiss=False)
+        close_button.bind(on_press=popup.dismiss)
+        popup.open()

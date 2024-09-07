@@ -66,17 +66,27 @@ class HomePage(Screen):
         vehicle_button.bind(on_press=self.go_to_vehicle_registry)
         box_layout.add_widget(vehicle_button)
 
-        """# Add two more buttons for demonstration
-        for i in range(3, 4):
-            button = Button(
-                text=f'Button {i}',
-                size_hint_y=None,
-                font_size='20sp',
-                height=dp(50),
-                background_color=(0, 0, 0, 0.8),  # Semi-transparent black background
-                color=(1, 1, 1, 1)  # White text color
-            )
-            box_layout.add_widget(button)"""
+        registered_v_button = Button(
+            text='Alle Fahrzeuge',
+            font_size='20sp',
+            size_hint_y=None,
+            height=dp(50),
+            background_color=(0, 0, 0, 0.8),  # Semi-transparent black background
+            color=(1, 1, 1, 1)  # White text color
+        )
+        registered_v_button.bind(on_press=self.go_to_all_vehicles)
+        box_layout.add_widget(registered_v_button)
+
+        registered_te_button = Button(
+            text='Alle Tankeinträge',
+            font_size='20sp',
+            size_hint_y=None,
+            height=dp(50),
+            background_color=(0, 0, 0, 0.8),  # Semi-transparent black background
+            color=(1, 1, 1, 1)  # White text color
+        )
+        registered_te_button.bind(on_press=self.go_to_all_tankentries)
+        box_layout.add_widget(registered_te_button)
 
         # Add the BoxLayout to the FloatLayout
         layout.add_widget(box_layout)
@@ -92,3 +102,9 @@ class HomePage(Screen):
 
     def go_to_vehicle_registry(self, instance):
         self.manager.current = 'vehicle_registry'
+
+    def go_to_all_vehicles(self, instance):
+        self.manager.current = 'all_vehicles'
+
+    def go_to_all_tankentries(self, instance):
+        self.manager.current = 'all_tankentries'
