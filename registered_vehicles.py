@@ -25,10 +25,10 @@ class ViewRegisteredVehicles(Screen):
         scroll_view = ScrollView(size_hint=(1, 0.8), pos_hint={'center_x': 0.5, 'center_y': 0.5})
 
         # Create a GridLayout to contain the labels inside the ScrollView
-        grid_layout = GridLayout(cols=1, padding=dp(10), spacing=dp(10), size_hint_y=None)
-        grid_layout.bind(minimum_height=grid_layout.setter('height'))
+        self.grid_layout = GridLayout(cols=1, padding=dp(10), spacing=dp(10), size_hint_y=None)
+        self.grid_layout.bind(minimum_height=self.grid_layout.setter('height'))
 
-        # Add the title label
+        """# Add the title label
         title_label = Button(
             text="Registrierte Fahrzeuge",
             font_size='28sp',
@@ -52,7 +52,7 @@ class ViewRegisteredVehicles(Screen):
                     background_color=(0,0,0,0.8),
                     color=(1, 1, 1, 1)  # White color
                 )
-        grid_layout.add_widget(vehicle_button)
+        self.grid_layout.add_widget(vehicle_button)
 
         # Create labels for each database entry
         for entry in self.database_entries:
@@ -65,10 +65,10 @@ class ViewRegisteredVehicles(Screen):
                 color=(1, 1, 1, 1)  # White color
             )
 
-            grid_layout.add_widget(entry_label)
+            self.grid_layout.add_widget(entry_label)"""
 
         # Add the GridLayout to the ScrollView
-        scroll_view.add_widget(grid_layout)
+        scroll_view.add_widget(self.grid_layout)
 
         # Add the ScrollView to the FloatLayout
         layout.add_widget(scroll_view)
@@ -87,6 +87,49 @@ class ViewRegisteredVehicles(Screen):
         layout.add_widget(back_button)
 
         self.add_widget(layout)
+
+    def on_pre_enter(self, *args):
+        self.reload_entries()
+
+    def reload_entries(self):
+        self.grid_layout.clear_widgets()
+        self.database_entries = get_vehicles()
+        
+        # Add the title label
+        title_label = Button(
+            text="Registrierte Fahrzeuge",
+            font_size='28sp',
+            size_hint_y=None,
+            height=dp(50),
+            bold=True,
+            background_color=(0,0,0,0.8),
+            color=(1, 1, 1, 1)  # White color
+        )
+        self.grid_layout.add_widget(title_label)
+
+        # Create column description
+        vehicle_button = Button(
+                    text="Id    -   Name    -   Km  -   Bh  -   Datum   -   Typ",
+                    font_size='20sp',
+                    size_hint_y=None,
+                    height=dp(50),
+                    bold=True,
+                    background_color=(0,0,0,0.8),
+                    color=(1, 1, 1, 1)  # White color
+                )
+        self.grid_layout.add_widget(vehicle_button)
+
+        # Create labels for each database entry
+        for entry in self.database_entries:
+            entry_label = Button(
+                text=" - ".join([str(e) for e in entry]),
+                font_size='20sp',
+                size_hint_y=None,
+                height=dp(40),
+                background_color=(0,0,0,0.7),
+                color=(1, 1, 1, 1)  # White color
+            )
+            self.grid_layout.add_widget(entry_label)
 
     def go_back(self, instance):
         self.manager.current = 'main'

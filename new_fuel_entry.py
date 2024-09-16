@@ -141,12 +141,16 @@ class NewFuelEntry(Screen):
 
     def on_submit(self, instance):
         selected_vehicle = self.vehicle_spinner.text
-        vehicle_id = self.vehicle_list.index(selected_vehicle)
-
-        add_tankentry(vehicle_id, self.fuel_input) # adds new tankentry to db
+        vehicle_id = self.vehicle_list.index(selected_vehicle) +1 # db starts with 1
+        print(selected_vehicle, vehicle_id)
+        status, msg = add_tankentry(vehicle_id, self.fuel_input) # adds new tankentry to db
+        if status:
+            popup_text = "Tankeintrag hinzugefügt"
+        else:
+            popup_text = f"{msg}"
 
         popup_content = BoxLayout(orientation='vertical')
-        popup_content.add_widget(Label(text="Tankeintrag erfolgreich hinzugefügt"))
+        popup_content.add_widget(Label(text=popup_text))
         close_button = Button(text='OK', size_hint_y=None, height='40dp')
         popup_content.add_widget(close_button)
 

@@ -152,11 +152,14 @@ class VehicleRegistry(Screen):
         if self.tractor_checkbox.active:
             vtype = "Traktor"
 
-        register_vehicle(vtype, self.name_input, self.km_input) # registers vehicle into db
-
+        status, msg = register_vehicle(vtype, self.name_input, self.km_input) # registers vehicle into db
+        if status:
+            popup_text = "Fahrzeug registriert"
+        else:
+            popup_text = f"{msg}"
     
         popup_content = BoxLayout(orientation='vertical')
-        popup_content.add_widget(Label(text="Fahrzeug erfolgreich hinzugefügt"))
+        popup_content.add_widget(Label(text=popup_text))
         close_button = Button(text='OK', size_hint_y=None, height='40dp')
         popup_content.add_widget(close_button)
 
@@ -167,10 +170,3 @@ class VehicleRegistry(Screen):
         close_button.bind(on_press=popup.dismiss)
 
         popup.open()
-
-"""class MyApp(App):
-    def build(self):
-        return VehicleRegistry()
-
-if __name__ == '__main__':
-    MyApp().run()"""
