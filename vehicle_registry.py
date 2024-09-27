@@ -32,7 +32,7 @@ class VehicleRegistry(Screen):
 
         # Add a title label at the top
         title_label = Label(
-            text="Neuer Tankeintrag",
+            text="Neues Fahrzeug",
             font_size='28sp',
             size_hint_y=None,
             height=dp(50),
@@ -68,17 +68,12 @@ class VehicleRegistry(Screen):
         checkbox_layout.bind(size=lambda widget, value: setattr(self.bg_rect, 'size', value))
         checkbox_layout.bind(pos=lambda widget, value: setattr(self.bg_rect, 'pos', value))
 
-
-        #inner_checkbox_layout = BoxLayout(orientation='horizontal', size_hint=(1, 1), height=dp(50))
-        #inner_checkbox_layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
-
-
-        self.car_checkbox = CheckBox(group='vehicle', size_hint=(None, None), size=(30, 30))
+        self.car_checkbox = CheckBox(group='vehicle', size_hint=(None, None), size=(50, 50))
         self.car_checkbox.bind(active=self.update_km_label)
         car_label = Label(text='Auto', 
                             font_size='20sp',
                             size_hint_y=None,
-                            size_hint_x=0.3,
+                            size_hint_x=0.5,
                             height=dp(50),
                             bold=True,
                             color=(1, 1, 1, 1)  # White text color)
@@ -91,7 +86,7 @@ class VehicleRegistry(Screen):
         tractor_label = Label(text='Traktor', 
                                 font_size='20sp',
                                 size_hint_y=None,
-                                size_hint_x=0.3,
+                                size_hint_x=0.5,
                                 height=dp(50),
                                 bold=True,
                                 color=(1, 1, 1, 1)  # White text color)
@@ -101,12 +96,10 @@ class VehicleRegistry(Screen):
 
         checkbox_layout.add_widget(car_label)
         checkbox_layout.add_widget(self.car_checkbox)
+        checkbox_layout.add_widget(Widget(size_hint_x=0.2))
         checkbox_layout.add_widget(self.tractor_checkbox)
         checkbox_layout.add_widget(tractor_label)
 
-        #checkbox_layout.add_widget(Widget())
-        #checkbox_layout.add_widget(inner_checkbox_layout)
-        #checkbox_layout.add_widget(Widget())
         box_layout.add_widget(checkbox_layout)
 
         self.name_var = None
@@ -210,7 +203,7 @@ class VehicleRegistry(Screen):
 
         popup = Popup(title='Submission Status',
                       content=popup_content,
-                      size_hint=(None, None), size=(300, 200),
+                      size_hint=(None, None), size=('300dp', '200dp'),
                       auto_dismiss=False)
         close_button.bind(on_press=popup.dismiss)
 

@@ -52,25 +52,6 @@ class NewFuelEntry(Screen):
         box_layout.height = dp(250)
         box_layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
 
-        """# Add a title label at the top
-        title_label = Label(
-            text="Neuer Tankeintrag",
-            font_size='28sp',
-            size_hint_y=None,
-            height=dp(50),
-            bold=True,
-            color=(1, 1, 1, 1)  # White color
-        )
-
-        # Adding a semi-transparent background behind the title
-        with title_label.canvas.before:
-            Color(0, 0, 0, 0.8)  # Black with 50% transparency
-            self.rect = Rectangle(size=title_label.size, pos=title_label.pos)
-        title_label.bind(size=self.update_rect, pos=self.update_rect)
-        
-        box_layout.add_widget(title_label)"""
-
-
         # Create three text fields
         vehicle_button = Button(
                     text="Fahrzeug",
@@ -181,7 +162,7 @@ class NewFuelEntry(Screen):
 
         popup = Popup(title='Submission Status',
                       content=popup_content,
-                      size_hint=(None, None), size=(300, 200),
+                      size_hint=(None, None), size=('300dp', '200dp'),
                       auto_dismiss=False)
         close_button.bind(on_press=popup.dismiss)
         popup.open()
