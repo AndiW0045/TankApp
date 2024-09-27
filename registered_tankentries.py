@@ -19,11 +19,11 @@ class ViewTankEntries(Screen):
         self.layout = FloatLayout()
 
         # Background Image
-        background = Image(source='images/tankeinträge.jpg', allow_stretch=True, keep_ratio=False)
+        background = Image(source='images/tankeintraege.jpg', allow_stretch=True, keep_ratio=False)
         self.layout.add_widget(background)
 
         # Create a ScrollView for scrolling through the database entries
-        self.scroll_view = ScrollView(size_hint=(1, 0.8), pos_hint={'center_x': 0.5, 'center_y': 0.5})
+        self.scroll_view = ScrollView(size_hint=(1, 0.7), pos_hint={'center_x': 0.5, 'center_y': 0.55})
 
         # Create a GridLayout to contain the labels inside the ScrollView
         self.grid_layout = GridLayout(cols=1, padding=dp(10), spacing=dp(10), size_hint_y=None)

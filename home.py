@@ -19,15 +19,14 @@ class HomePage(Screen):
         background = Image(source='images/fuel_station.jpg', allow_stretch=True, keep_ratio=False)
         layout.add_widget(background)
 
-        # Create a BoxLayout for the title and buttons
-        box_layout = BoxLayout(orientation='vertical', spacing=dp(10), padding=[dp(10), dp(10), dp(10), dp(10)])
-        box_layout.size_hint = (1, None)
-        box_layout.height = dp(250)
-        box_layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        title_layout = BoxLayout(orientation='vertical')
+        title_layout.size_hint = (1, None)
+        title_layout.height = dp(120)
+        title_layout.pos_hint = {'center_x': 0.5, 'y': 0.8}
 
         # Add a title label at the top
         title_label = Label(
-            text="Andi's Supercoole TankApp",
+            text="My TankApp",
             font_size='28sp',
             size_hint_y=None,
             height=dp(50),
@@ -41,7 +40,14 @@ class HomePage(Screen):
             self.rect = Rectangle(size=title_label.size, pos=title_label.pos)
         title_label.bind(size=self.update_rect, pos=self.update_rect)
 
-        box_layout.add_widget(title_label)
+        title_layout.add_widget(title_label)
+
+        # Create a BoxLayout for the title and buttons
+        box_layout = BoxLayout(orientation='vertical', spacing=dp(10), padding=[dp(10), dp(10), dp(10), dp(10)])
+        box_layout.size_hint = (1, None)
+        box_layout.pos_hint = ()
+        box_layout.height = dp(350)
+        box_layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
 
         # Create the first button that navigates to the second screen
         fuel_entry_button = Button(
@@ -88,7 +94,19 @@ class HomePage(Screen):
         registered_te_button.bind(on_press=self.go_to_all_tankentries)
         box_layout.add_widget(registered_te_button)
 
+        summary_button = Button(
+            text='Zusammenfassung',
+            font_size='20sp',
+            size_hint_y=None,
+            height=dp(50),
+            background_color=(0, 0, 0, 0.8),  # Semi-transparent black background
+            color=(1, 1, 1, 1)  # White text color
+        )
+        summary_button.bind(on_press=self.go_to_summary)
+        box_layout.add_widget(summary_button)
+
         # Add the BoxLayout to the FloatLayout
+        layout.add_widget(title_layout)
         layout.add_widget(box_layout)
 
         self.add_widget(layout)
@@ -108,3 +126,6 @@ class HomePage(Screen):
 
     def go_to_all_tankentries(self, instance):
         self.manager.current = 'all_tankentries'
+
+    def go_to_summary(self, instance):
+        self.manager.current = 'tankentry_summary'

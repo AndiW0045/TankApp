@@ -22,11 +22,10 @@ class NewFuelEntry(Screen):
         background = Image(source='images/hose.jpg', allow_stretch=True, keep_ratio=False)
         layout.add_widget(background)
 
-        # Create a BoxLayout for the form fields and back button
-        box_layout = BoxLayout(orientation='vertical', spacing=dp(10), padding=[dp(10), dp(10), dp(10), dp(10)])
-        box_layout.size_hint = (1, None)
-        box_layout.height = dp(250)
-        box_layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        title_layout = BoxLayout(orientation='vertical')
+        title_layout.size_hint = (1, None)
+        title_layout.height = dp(120)
+        title_layout.pos_hint = {'center_x': 0.5, 'y': 0.8}
 
         # Add a title label at the top
         title_label = Label(
@@ -44,7 +43,32 @@ class NewFuelEntry(Screen):
             self.rect = Rectangle(size=title_label.size, pos=title_label.pos)
         title_label.bind(size=self.update_rect, pos=self.update_rect)
         
-        box_layout.add_widget(title_label)
+        title_layout.add_widget(title_label)
+
+
+        # Create a BoxLayout for the form fields and back button
+        box_layout = BoxLayout(orientation='vertical', spacing=dp(10), padding=[dp(10), dp(10), dp(10), dp(10)])
+        box_layout.size_hint = (1, None)
+        box_layout.height = dp(250)
+        box_layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+
+        """# Add a title label at the top
+        title_label = Label(
+            text="Neuer Tankeintrag",
+            font_size='28sp',
+            size_hint_y=None,
+            height=dp(50),
+            bold=True,
+            color=(1, 1, 1, 1)  # White color
+        )
+
+        # Adding a semi-transparent background behind the title
+        with title_label.canvas.before:
+            Color(0, 0, 0, 0.8)  # Black with 50% transparency
+            self.rect = Rectangle(size=title_label.size, pos=title_label.pos)
+        title_label.bind(size=self.update_rect, pos=self.update_rect)
+        
+        box_layout.add_widget(title_label)"""
 
 
         # Create three text fields
@@ -95,6 +119,7 @@ class NewFuelEntry(Screen):
 
 
         # Add the BoxLayout to the FloatLayout
+        layout.add_widget(title_layout)
         layout.add_widget(box_layout)
 
         # Create a BoxLayout for the Submit and Back buttons

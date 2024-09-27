@@ -9,6 +9,7 @@ from kivy.metrics import dp
 from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Color, Rectangle
 from kivy.uix.checkbox import CheckBox
+from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
 
 from database_functions import register_vehicle
@@ -20,18 +21,18 @@ class VehicleRegistry(Screen):
         layout = FloatLayout()
 
         # Background Image
-        background = Image(source='images/car2.jpg', allow_stretch=True, keep_ratio=False)
+        background = Image(source='images/better.jpg', allow_stretch=True, keep_ratio=False)
         layout.add_widget(background)
 
-        # Create a BoxLayout for the form fields and back button
-        box_layout = BoxLayout(orientation='vertical', spacing=dp(10), padding=[dp(10), dp(10), dp(10), dp(10)])
-        box_layout.size_hint = (1, None)
-        box_layout.height = dp(300)  # Adjusted height to accommodate checkboxes
-        box_layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+
+        title_layout = BoxLayout(orientation='vertical')
+        title_layout.size_hint = (1, None)
+        title_layout.height = dp(120)
+        title_layout.pos_hint = {'center_x': 0.5, 'y': 0.8}
 
         # Add a title label at the top
         title_label = Label(
-            text="Register New Vehicle",
+            text="Neuer Tankeintrag",
             font_size='28sp',
             size_hint_y=None,
             height=dp(50),
@@ -44,48 +45,91 @@ class VehicleRegistry(Screen):
             Color(0, 0, 0, 0.8)  # Black with 50% transparency
             self.rect = Rectangle(size=title_label.size, pos=title_label.pos)
         title_label.bind(size=self.update_rect, pos=self.update_rect)
+        
+        title_layout.add_widget(title_label)
 
-        box_layout.add_widget(title_label)
+
+        # Create a BoxLayout for the form fields and back button
+        box_layout = BoxLayout(orientation='vertical', spacing=dp(10), padding=[dp(10), dp(10), dp(10), dp(10)])
+        box_layout.size_hint = (1, None)
+        box_layout.height = dp(300)  # Adjusted height to accommodate checkboxes
+        box_layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+
 
         # Add checkboxes for vehicle type
-        checkbox_layout = BoxLayout(orientation='horizontal', size_hint_y=None, height=dp(40))
-        checkbox_layout.size_hint = (None, None)  # Disable size hints to allow explicit sizing
-        checkbox_layout.pos_hint = {'center_x': 0.4}  # Center horizontally
+        checkbox_layout = BoxLayout(orientation='horizontal', size_hint_y=None, height=dp(50))
+
+        # Add a canvas to the layout for background color
+        with checkbox_layout.canvas.before:
+            Color(0, 0, 0, 0.8)  # Set the background color to semi-transparent black (RGBA)
+            self.bg_rect = Rectangle(size=checkbox_layout.size, pos=checkbox_layout.pos)
+
+        # Bind the size and position of the background rectangle to the layout size and position
+        checkbox_layout.bind(size=lambda widget, value: setattr(self.bg_rect, 'size', value))
+        checkbox_layout.bind(pos=lambda widget, value: setattr(self.bg_rect, 'pos', value))
+
+
+        #inner_checkbox_layout = BoxLayout(orientation='horizontal', size_hint=(1, 1), height=dp(50))
+        #inner_checkbox_layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+
 
         self.car_checkbox = CheckBox(group='vehicle', size_hint=(None, None), size=(30, 30))
         self.car_checkbox.bind(active=self.update_km_label)
-        car_label = Label(text='Auto', font_size='20sp', height=dp(25),bold=True, color=(1, 1, 1, 1), size_hint=(None, None), size=(80, 30), valign='middle')
+        car_label = Label(text='Auto', 
+                            font_size='20sp',
+                            size_hint_y=None,
+                            size_hint_x=0.3,
+                            height=dp(50),
+                            bold=True,
+                            color=(1, 1, 1, 1)  # White text color)
+                            )
+        self.car_checkbox.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        car_label.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
 
         self.tractor_checkbox = CheckBox(group='vehicle', size_hint=(None, None), size=(30, 30))
         self.tractor_checkbox.bind(active=self.update_km_label)
-        tractor_label = Label(text='Traktor', font_size='20sp', height=dp(25),bold=True, color=(1, 1, 1, 1), size_hint=(None, None), size=(80, 30), valign='middle')
+        tractor_label = Label(text='Traktor', 
+                                font_size='20sp',
+                                size_hint_y=None,
+                                size_hint_x=0.3,
+                                height=dp(50),
+                                bold=True,
+                                color=(1, 1, 1, 1)  # White text color)
+                                )
+        self.tractor_checkbox.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        tractor_label.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
 
-        checkbox_layout.add_widget(self.car_checkbox)
         checkbox_layout.add_widget(car_label)
+        checkbox_layout.add_widget(self.car_checkbox)
         checkbox_layout.add_widget(self.tractor_checkbox)
         checkbox_layout.add_widget(tractor_label)
 
+        #checkbox_layout.add_widget(Widget())
+        #checkbox_layout.add_widget(inner_checkbox_layout)
+        #checkbox_layout.add_widget(Widget())
         box_layout.add_widget(checkbox_layout)
 
         self.name_var = None
         # Create three text fields
-        name = Label(
+        name = Button(
             text="Name",
             font_size='20sp',
             size_hint_y=None,
-            height=dp(25),
+            height=dp(50),
             bold=True,
+            background_color=(0,0,0,0.8),
             color=(1, 1, 1, 1)  # White color
         )
         self.name_var = name
         self.name_input = TextInput(size_hint_y=None, height=dp(40))
 
-        self.km_label = Label(
+        self.km_label = Button(
             text="Aktueller Kilometerstand",
             font_size='20sp',
             size_hint_y=None,
-            height=dp(25),
+            height=dp(50),
             bold=True,
+            background_color=(0, 0, 0, 0.8),
             color=(1, 1, 1, 1)  # White color
         )
         self.km_input = TextInput(size_hint_y=None, height=dp(40))
@@ -96,6 +140,7 @@ class VehicleRegistry(Screen):
         box_layout.add_widget(self.km_input)
 
         # Add the BoxLayout to the FloatLayout
+        layout.add_widget(title_layout)
         layout.add_widget(box_layout)
 
         # Create a BoxLayout for the Submit and Back buttons

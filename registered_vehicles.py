@@ -22,50 +22,12 @@ class ViewRegisteredVehicles(Screen):
         layout.add_widget(background)
 
         # Create a ScrollView for scrolling through the database entries
-        scroll_view = ScrollView(size_hint=(1, 0.8), pos_hint={'center_x': 0.5, 'center_y': 0.5})
+        scroll_view = ScrollView(size_hint=(1, 0.7), pos_hint={'center_x': 0.5, 'center_y': 0.55})
 
         # Create a GridLayout to contain the labels inside the ScrollView
         self.grid_layout = GridLayout(cols=1, padding=dp(10), spacing=dp(10), size_hint_y=None)
         self.grid_layout.bind(minimum_height=self.grid_layout.setter('height'))
 
-        """# Add the title label
-        title_label = Button(
-            text="Registrierte Fahrzeuge",
-            font_size='28sp',
-            size_hint_y=None,
-            height=dp(50),
-            bold=True,
-            background_color=(0,0,0,0.8),
-            color=(1, 1, 1, 1)  # White color
-        )
-
-        grid_layout.add_widget(title_label)
-
-
-        # Create column description
-        vehicle_button = Button(
-                    text="Id    -   Name    -   Km  -   Bh  -   Datum   -   Typ",
-                    font_size='20sp',
-                    size_hint_y=None,
-                    height=dp(50),
-                    bold=True,
-                    background_color=(0,0,0,0.8),
-                    color=(1, 1, 1, 1)  # White color
-                )
-        self.grid_layout.add_widget(vehicle_button)
-
-        # Create labels for each database entry
-        for entry in self.database_entries:
-            entry_label = Button(
-                text=" - ".join([str(e) for e in entry]),
-                font_size='20sp',
-                size_hint_y=None,
-                height=dp(40),
-                background_color=(0,0,0,0.7),
-                color=(1, 1, 1, 1)  # White color
-            )
-
-            self.grid_layout.add_widget(entry_label)"""
 
         # Add the GridLayout to the ScrollView
         scroll_view.add_widget(self.grid_layout)
@@ -109,7 +71,7 @@ class ViewRegisteredVehicles(Screen):
 
         # Create column description
         vehicle_button = Button(
-                    text="Id    -   Name    -   Km  -   Bh  -   Datum   -   Typ",
+                    text="Name    -   Km/Bh",
                     font_size='20sp',
                     size_hint_y=None,
                     height=dp(50),
@@ -121,8 +83,13 @@ class ViewRegisteredVehicles(Screen):
 
         # Create labels for each database entry
         for entry in self.database_entries:
+            if entry[5] == 'Traktor':
+                text = " - ".join([str(entry[1]), str(entry[2])]) + "h"
+            else:
+                text = " - ".join([str(entry[1]), str(entry[2])]) + "km"
+
             entry_label = Button(
-                text=" - ".join([str(e) for e in entry]),
+                text=text,
                 font_size='20sp',
                 size_hint_y=None,
                 height=dp(40),
