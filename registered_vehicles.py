@@ -84,7 +84,7 @@ class ViewRegisteredVehicles(Screen):
         # Create labels for each database entry
         for entry in self.database_entries:
             if entry[5] == 'Traktor':
-                text = " - ".join([str(entry[1]), str(entry[2])]) + "h"
+                text = " - ".join([str(entry[1]), str(entry[3])]) + "h"
             else:
                 text = " - ".join([str(entry[1]), str(entry[2])]) + "km"
 
@@ -99,4 +99,4 @@ class ViewRegisteredVehicles(Screen):
             self.grid_layout.add_widget(entry_label)
 
     def go_back(self, instance):
-        self.manager.current = 'main'
+        self.manager.current = 'vehicles_page'

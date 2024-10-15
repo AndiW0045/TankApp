@@ -12,16 +12,19 @@ from kivy.uix.checkbox import CheckBox
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
 
-from database_functions import register_vehicle
+from database_functions import register_vehicle, get_vehicles
 
 class VehicleRegistry(Screen):
     def __init__(self, **kwargs):
         super(VehicleRegistry, self).__init__(**kwargs)
         # Use FloatLayout to place widgets on top of each other
+        self.database_entries = get_vehicles()
+
+
         layout = FloatLayout()
 
         # Background Image
-        background = Image(source='images/better.jpg', allow_stretch=True, keep_ratio=False)
+        background = Image(source='images/car_registry.jpg', allow_stretch=True, keep_ratio=False)
         layout.add_widget(background)
 
 
@@ -172,7 +175,7 @@ class VehicleRegistry(Screen):
         self.add_widget(layout)
 
     def go_back(self, instance):
-        self.manager.current = 'main'
+        self.manager.current = 'vehicles_page'
 
     def update_rect(self, instance, value):
         self.rect.pos = instance.pos
@@ -186,16 +189,21 @@ class VehicleRegistry(Screen):
             self.km_label.text = "Aktuelle Betriebsstunden"
 
     def on_submit(self, instance):
-        vtype = "Auto"
-        if self.tractor_checkbox.active:
-            vtype = "Traktor"
-
-        status, msg = register_vehicle(vtype, self.name_input, self.km_input) # registers vehicle into db
-        if status:
-            popup_text = "Fahrzeug registriert"
+        existing_names = [i[1] for i in self.database_entries]
+        if self.name_input.text in existing_names:
+            print("already exists")
+            popup_text = "Fahrzeug existiert bereits"
         else:
-            popup_text = f"{msg}"
-    
+            vtype = "Auto"
+            if self.tractor_checkbox.active:
+                vtype = "Traktor"
+
+            status, msg = register_vehicle(vtype, self.name_input, self.km_input) # registers vehicle into db
+            if status:
+                popup_text = "Fahrzeug registriert"
+            else:
+                popup_text = f"{msg}"
+        
         popup_content = BoxLayout(orientation='vertical')
         popup_content.add_widget(Label(text=popup_text))
         close_button = Button(text='OK', size_hint_y=None, height='40dp')

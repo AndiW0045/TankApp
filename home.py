@@ -49,7 +49,7 @@ class HomePage(Screen):
         box_layout.height = dp(350)
         box_layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
 
-        # Create the first button that navigates to the second screen
+        """# Create the first button that navigates to the second screen
         fuel_entry_button = Button(
             text='Neuer Tankeintrag',
             font_size='20sp',
@@ -92,7 +92,29 @@ class HomePage(Screen):
             color=(1, 1, 1, 1)  # White text color
         )
         registered_te_button.bind(on_press=self.go_to_all_tankentries)
-        box_layout.add_widget(registered_te_button)
+        box_layout.add_widget(registered_te_button)"""
+
+        vehicles = Button(
+            text='Fahrzeuge',
+            font_size='20sp',
+            size_hint_y=None,
+            height=dp(50),
+            background_color=(0, 0, 0, 0.8),  # Semi-transparent black background
+            color=(1, 1, 1, 1)  # White text color
+        )
+        vehicles.bind(on_press=self.go_to_vehicles_page)
+        box_layout.add_widget(vehicles)
+
+        tank_entries = Button(
+            text='Tankeinträge',
+            font_size='20sp',
+            size_hint_y=None,
+            height=dp(50),
+            background_color=(0, 0, 0, 0.8),  # Semi-transparent black background
+            color=(1, 1, 1, 1)  # White text color
+        )
+        tank_entries.bind(on_press=self.go_to_tankentries_page)
+        box_layout.add_widget(tank_entries)
 
         summary_button = Button(
             text='Zusammenfassung',
@@ -115,17 +137,23 @@ class HomePage(Screen):
         self.rect.pos = instance.pos
         self.rect.size = instance.size
 
-    def go_to_form(self, instance):
-        self.manager.current = 'new_fuel_entry'
+    def go_to_vehicles_page(self, instance):
+        self.manager.current = 'vehicles_page'
 
-    def go_to_vehicle_registry(self, instance):
-        self.manager.current = 'vehicle_registry'
+    def go_to_tankentries_page(self, instance):
+        self.manager.current = 'tankentries_page'
+
+    def go_to_summary(self, instance):
+        self.manager.current = 'tankentry_summary'
+        
+    """#def go_to_form(self, instance):
+    #    self.manager.current = 'new_fuel_entry'
+
+    #def go_to_vehicle_registry(self, instance):
+    #    self.manager.current = 'vehicle_registry'
 
     def go_to_all_vehicles(self, instance):
         self.manager.current = 'all_vehicles'
 
     def go_to_all_tankentries(self, instance):
-        self.manager.current = 'all_tankentries'
-
-    def go_to_summary(self, instance):
-        self.manager.current = 'tankentry_summary'
+        self.manager.current = 'all_tankentries'"""

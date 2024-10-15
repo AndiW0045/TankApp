@@ -101,4 +101,4 @@ class ViewTankEntries(Screen):
             self.grid_layout.add_widget(entry_label)
 
     def go_back(self, instance):
-        self.manager.current = 'main'
+        self.manager.current = 'tankentries_page'

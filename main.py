@@ -7,6 +7,8 @@ from vehicle_registry import VehicleRegistry
 from registered_vehicles import ViewRegisteredVehicles
 from registered_tankentries import ViewTankEntries
 from tankentry_summary import TankEntrySummary
+from vehicles_page import VehiclesPage
+from tankentries_page import TankEntriesPage
 
 class MyApp(App):
     def build(self):
@@ -18,6 +20,8 @@ class MyApp(App):
         sm.add_widget(ViewRegisteredVehicles(name="all_vehicles"))
         sm.add_widget(ViewTankEntries(name="all_tankentries"))
         sm.add_widget(TankEntrySummary(name="tankentry_summary"))
+        sm.add_widget(VehiclesPage(name="vehicles_page"))
+        sm.add_widget(TankEntriesPage(name="tankentries_page"))
         return sm
 
 if __name__ == '__main__':

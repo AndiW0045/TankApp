@@ -139,7 +139,7 @@ class NewFuelEntry(Screen):
         self.add_widget(layout)
 
     def go_back(self, instance):
-        self.manager.current = 'main'
+        self.manager.current = 'tankentries_page'
 
     def update_rect(self, instance, value):
         self.rect.pos = instance.pos

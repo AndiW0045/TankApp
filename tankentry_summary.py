@@ -72,10 +72,34 @@ class TankEntrySummary(Screen):
         self.vehicles = get_vehicles()
         self.tankentries = get_tankentries()
 
+        num_vehicles = len(self.vehicles)
+        num_tankentries = len(self.tankentries)
+
         liter_sum = 0
         for entry in self.tankentries:
             liter_sum += entry[2]
             
+        num_vehicles_button = Button(
+                    text=f"Gespeicherte Fahrzeuge    -    {num_vehicles}",
+                    font_size='20sp',
+                    size_hint_y=None,
+                    height=dp(50),
+                    bold=True,
+                    background_color=(0,0,0,0.8),
+                    color=(1, 1, 1, 1)  # White color
+                )
+        self.box_layout.add_widget(num_vehicles_button)
+
+        num_tankentries_button = Button(
+                    text=f"Anzahl Tankeinträge    -    {num_tankentries}",
+                    font_size='20sp',
+                    size_hint_y=None,
+                    height=dp(50),
+                    bold=True,
+                    background_color=(0,0,0,0.8),
+                    color=(1, 1, 1, 1)  # White color
+                )
+        self.box_layout.add_widget(num_tankentries_button)
 
         liter_number = Button(
                     text=f"Gesamtverbrauch    -    {liter_sum}",
